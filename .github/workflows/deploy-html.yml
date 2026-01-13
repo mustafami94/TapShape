@@ -1,9 +1,9 @@
-name: Deploy HTML to GitHub Pages
+name: Deploy to GitHub Pages from root
 
 on:
   push:
     branches:
-      - main   # أو أي فرع تستخدمه
+      - main  # غيّر إذا كان فرعك الرئيسي مختلف
 
 jobs:
   deploy:
@@ -12,8 +12,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Ensure .nojekyll exists
+        run: |
+          touch .nojekyll
+
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v6
+        uses: peaceiris/actions-gh-pages@v5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs      # دليل ملفات HTML مباشرة
+          publish_dir: ./docs   # كل الملفات من الجذر
